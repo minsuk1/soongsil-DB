@@ -1,5 +1,5 @@
-const mysql = require('mysql2/promise');
-//const sql = require('mssql');
+//const mysql = require('mysql2/promise');
+const sql = require('mssql');
 const {logger} = require('./winston');
 var path = require('path');
 var dotenv = require('dotenv')

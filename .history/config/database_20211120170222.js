@@ -1,5 +1,5 @@
-const mysql = require('mysql2/promise');
-//const sql = require('mssql');
+//const mysql = require('mysql2/promise');
+const sql = require('mssql');
 const {logger} = require('./winston');
 var path = require('path');
 var dotenv = require('dotenv')
@@ -12,6 +12,7 @@ const pool = sql.createPool({
     port: 3306,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
+    multipleStatements: true
 });
 
 module.exports = {
