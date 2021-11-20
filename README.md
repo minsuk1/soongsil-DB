@@ -1,1 +1,1 @@
-yourssu 과제
+DB 수업
