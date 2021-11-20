@@ -1,14 +1,35 @@
 const {pool} = require('../../../config/database');
 const {logger} = require('../../../config/winston');
 
-const boardDao = require('../dao/boardDao');
+const channelDao = require('../dao/channelDao');
 
-//전 게시글 조회
+
+// 유튜브 동영상(id=1)을 클릭했을 때, 나오는 화면
 exports.default = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const rows = await boardDao.defaultDao();
+            const user_id = req.params.user_id;
+            const rows = await channelDao.defaultDao(user_id);
+            console.log(rows)
+            return res.json(rows);
+        } catch (err) {
+            logger.error(`example non transaction Query error\n: ${JSON.stringify(err)}`);
+            connection.release();
+            return false;
+        }
+    } catch (err) {
+        logger.error(`example non transaction DB Connection error\n: ${JSON.stringify(err)}`);
+        return false;
+    }
+};
+
+// '예고편' 검색시 뜨는 페이지
+exports.expected = async function (req, res) {
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        try {
+            const rows = await channelDao.expected();
             console.log(rows)
             return res.json(rows);
         } catch (err) {
@@ -23,31 +44,13 @@ exports.default = async function (req, res) {
 };
 
 
-// 사용자별 좋아요 한 댓글
-exports.comment_like = async function (req, res) {
-    try {
-        const connection = await pool.getConnection(async conn => conn);
-        try {
-            const rows = await boardDao.comment_like();
-            console.log(rows)
-            return res.json(rows);
-        } catch (err) {
-            logger.error(`example non transaction Query error\n: ${JSON.stringify(err)}`);
-            connection.release();
-            return false;
-        }
-    } catch (err) {
-        logger.error(`example non transaction DB Connection error\n: ${JSON.stringify(err)}`);
-        return false;
-    }
-};
 
-// 사용자별 싫어요 한 댓글
-exports.comment_dislike = async function (req, res) {
+// QUERY) WATCH_VIDEOS_LATER - 유나님
+exports.watch_videos_later = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const rows = await boardDao.comment_dislike();
+            const rows = await channelDao.watch_videos_later();
             console.log(rows)
             return res.json(rows);
         } catch (err) {
@@ -62,12 +65,13 @@ exports.comment_dislike = async function (req, res) {
 };
 
 
-// video 1번에 대한 댓글
-exports.comment = async function (req, res) {
+
+// QUERY) WATCH_VIDEOS_LATER - 유나님
+exports.like_videos = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const rows = await boardDao.comment();
+            const rows = await channelDao.like_videos();
             console.log(rows)
             return res.json(rows);
         } catch (err) {

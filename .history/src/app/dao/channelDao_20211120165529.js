@@ -112,6 +112,7 @@ async function totalwatchingview() {
                     SELECT Users_ID,username, displayName, totalwatchingview 
                     FROM YOUTUBE_USER 
                     ORDER BY totalwatchingview desc;
+                    
          `;
 
   const [rows] = await connection.query(Query)

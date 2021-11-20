@@ -1,7 +1,6 @@
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
-const { count } = require('console');
 
 const env = process.env.NODE_ENV || 'development';
 const logDir = 'log';

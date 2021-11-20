@@ -84,41 +84,6 @@ async function like_videos() {
   return rows;
 }
 
-
-// QUERY) SUBSCRIPTION - 유나님
-async function subscription() {
-  const connection = await pool.getConnection(async (conn) => conn);
-  const Query = 
-                    `
-                    SELECT s.Follower_id,u.displayName, v.Title, v.firstcreated
-                    FROM SUBSCRIPTION s
-                      left join YOUTUBE_USER u on s.following_id=u.Users_id
-                        left join VIDEOS v on u.users_id =v.users_id
-                          where u.users_id = 1;
-         `;
-
-  const [rows] = await connection.query(Query)
-  connection.release();
-
-  return rows;
-}
-
-
-// QUERY) SUBSCRIPTION - 유나님
-async function totalwatchingview() {
-  const connection = await pool.getConnection(async (conn) => conn);
-  const Query = 
-                    `
-                    SELECT Users_ID,username, displayName, totalwatchingview 
-                    FROM YOUTUBE_USER 
-                    ORDER BY totalwatchingview desc;
-         `;
-
-  const [rows] = await connection.query(Query)
-  connection.release();
-
-  return rows;
-}
 module.exports = {
-  defaultDao,expected,watch_later,like_videos,subscription,totalwatchingview
+  defaultDao,expected,watch_later,like_videos
 };

@@ -85,16 +85,16 @@ async function like_videos() {
 }
 
 
-// QUERY) SUBSCRIPTION - 유나님
-async function subscription() {
+// QUERY) 좋아요 영상 - 유나님
+async function like_videos() {
   const connection = await pool.getConnection(async (conn) => conn);
   const Query = 
                     `
-                    SELECT s.Follower_id,u.displayName, v.Title, v.firstcreated
-                    FROM SUBSCRIPTION s
-                      left join YOUTUBE_USER u on s.following_id=u.Users_id
-                        left join VIDEOS v on u.users_id =v.users_id
-                          where u.users_id = 1;
+                    SELECT YOUTUBE_USER.Users_ID, YOUTUBE_USER.UserName, VIDEOS.Title
+                    From YOUTUBE_USER, EMOTION_VIDEOS, VIDEOS
+                    WHERE YOUTUBE_USER.Users_ID= EMOTION_VIDEOS.Users_ID and 
+                    EMOTION_VIDEOS.emotion=1 and 
+                    EMOTION_VIDEOS.Video_id= VIDEOS.Video_id;
          `;
 
   const [rows] = await connection.query(Query)
@@ -109,9 +109,11 @@ async function totalwatchingview() {
   const connection = await pool.getConnection(async (conn) => conn);
   const Query = 
                     `
-                    SELECT Users_ID,username, displayName, totalwatchingview 
-                    FROM YOUTUBE_USER 
-                    ORDER BY totalwatchingview desc;
+                    SELECT YOUTUBE_USER.Users_ID, YOUTUBE_USER.UserName, VIDEOS.Title
+                    From YOUTUBE_USER, EMOTION_VIDEOS, VIDEOS
+                    WHERE YOUTUBE_USER.Users_ID= EMOTION_VIDEOS.Users_ID and 
+                    EMOTION_VIDEOS.emotion=1 and 
+                    EMOTION_VIDEOS.Video_id= VIDEOS.Video_id;
          `;
 
   const [rows] = await connection.query(Query)

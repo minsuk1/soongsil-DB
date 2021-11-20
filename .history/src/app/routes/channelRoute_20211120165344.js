@@ -17,10 +17,10 @@ module.exports = function(app){
     app.get('/channel/like_videos', channel.like_videos);
 
 
-    // QUERY) SUBSCRIPTION - 유나님
+    // QUERY) SUBSCRIPTION
     app.get('/channel/subscription', channel.subscription);
 
 
-    // QUERY) totalwatchingview 내림차순 - 유나님
-     app.get('/channel/totalwatchingview', channel.totalwatchingview);
+    // QUERY) totalwatchingview 내림차순
+    app.get('/channel/totalwatchingview', channel.totalwatchingview);
 };

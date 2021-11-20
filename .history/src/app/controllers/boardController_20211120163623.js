@@ -3,7 +3,7 @@ const {logger} = require('../../../config/winston');
 
 const boardDao = require('../dao/boardDao');
 
-//전 게시글 조회
+////전 게시글 조회
 exports.default = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);

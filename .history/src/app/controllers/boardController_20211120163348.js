@@ -3,7 +3,6 @@ const {logger} = require('../../../config/winston');
 
 const boardDao = require('../dao/boardDao');
 
-//전 게시글 조회
 exports.default = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
@@ -23,12 +22,11 @@ exports.default = async function (req, res) {
 };
 
 
-// 사용자별 좋아요 한 댓글
 exports.comment_like = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const rows = await boardDao.comment_like();
+            const rows = await boardDao.defaultDao();
             console.log(rows)
             return res.json(rows);
         } catch (err) {
@@ -42,12 +40,12 @@ exports.comment_like = async function (req, res) {
     }
 };
 
-// 사용자별 싫어요 한 댓글
+
 exports.comment_dislike = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const rows = await boardDao.comment_dislike();
+            const rows = await boardDao.defaultDao();
             console.log(rows)
             return res.json(rows);
         } catch (err) {
@@ -62,12 +60,11 @@ exports.comment_dislike = async function (req, res) {
 };
 
 
-// video 1번에 대한 댓글
 exports.comment = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const rows = await boardDao.comment();
+            const rows = await boardDao.defaultDao();
             console.log(rows)
             return res.json(rows);
         } catch (err) {
