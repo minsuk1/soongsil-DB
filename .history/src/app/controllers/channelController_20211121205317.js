@@ -9,8 +9,8 @@ exports.default = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const user_id = req.params.user_id;
-            const rows = await channelDao.defaultDao(user_id);
+            //const user_id = req.params.user_id;
+            const rows = await channelDao.defaultDao();
             console.log(rows)
             return res.json(rows);
         } catch (err) {

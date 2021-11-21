@@ -37,11 +37,11 @@ async function comment_dislike() {
   const connection = await pool.getConnection(async (conn) => conn);
   const Query = 
                     `
-                    SELECT YOUTUBE_USER.Users_id, YOUTUBE_USER.userName, VIDEO_COMMENTS.Texts
+                    SELECT YOUTUBE_USER.userID, YOUTUBE_USER.userName, VIDEO_COMMENTS.Texts
                     From YOUTUBE_USER, EMOTION_VIDEOCOMMENT, VIDEO_COMMENTS
-                    WHERE YOUTUBE_USER.Users_id= EMOTION_VIDEOCOMMENT.Users_id and 
+                    WHERE YOUTUBE_USER.userID= EMOTION_VIDEOCOMMENT.userID and 
                     EMOTION_VIDEOCOMMENT.emotion=0 and 
-                    EMOTION_VIDEOCOMMENT.Comment_id = VIDEO_COMMENTS.Comment_id;`;
+                    EMOTION_VIDEOCOMMENT.Comment_id = VIDEO_COMMENTS.Comment_id`;
 
   const [rows] = await connection.query(Query)
   connection.release();
@@ -51,24 +51,22 @@ async function comment_dislike() {
 
 
 // video 1번에 대한 댓글
-async function comment(video_id) {
+async function comment() {
   const connection = await pool.getConnection(async (conn) => conn);
   const Query = 
                     `
-                    SELECT VIDEOS.Video_id,
-                    VIDEO_COMMENTS.Comment_id,
-                    (SELECT Count(*) FROM VIDEO_COMMENTS, VIDEOS WHERE VIDEO_COMMENTS.Video_id = VIDEOS.Video_id and VIDEOS.Video_id = 1) AS '댓글_개수',
-                    YOUTUBE_USER.DisplayName AS '댓글_작성자',
-                    VIDEO_COMMENTS.Texts As '댓글_내용',
-                    VIDEO_COMMENTS.FirstCreated AS '작성_날짜',
-                    (SELECT Count(*) FROM EMOTION_VIDEOCOMMENT, VIDEO_COMMENTS, VIDEOS
-                    WHERE EMOTION_VIDEOCOMMENT.Comment_id = VIDEO_COMMENTS.Comment_id and EMOTION_VIDEOCOMMENT.Emotion = 1 and VIDEOS.Video_id = 1) AS '댓글_좋아요_개수'
-                FROM (YOUTUBE_USER 
-                     left join VIDEO_COMMENTS on YOUTUBE_USER.Users_id = VIDEO_COMMENTS.Users_id)
-                     left join VIDEOS on VIDEOS.Video_id = VIDEO_COMMENTS.Video_id
-                WHERE VIDEOS.Video_id = ?;`;
+                    select v.video_id,
+    (select count(*) from VIDEO_COMMENTS  c where c.video_id=v.video_id) as AS '댓글_갯수',
+    (select YOUTUBE_USER.DisplayName from USER where YOUTUBE_USER.Users_id=c.Users_id) as AS '댓글_단사람',
+    c.text as AS '댓글_내용',
+    c.createdAt as AS '날짜',
+    (select count(*) from EMOTION_VIDEOCOMMENT lv where lv.Comment_id = c.Comment_id and lv.Emotion=1) as '댓글_좋아요_갯수'
+    from YOUTUBE_USER 
+        left join VIDEOS v on YOUTUBE_USER.Users_id = v.Users_id
+            left join VIDEO_COMMENTS c on v.Video_id = c.video_id
+                where v.video_id = 1`;
 
-  const [rows] = await connection.query(Query, video_id)
+  const [rows] = await connection.query(Query)
   connection.release();
 
   return rows;

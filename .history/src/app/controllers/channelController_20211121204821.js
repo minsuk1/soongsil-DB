@@ -9,28 +9,8 @@ exports.default = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const user_id = req.params.user_id;
-            const rows = await channelDao.defaultDao(user_id);
-            console.log(rows)
-            return res.json(rows);
-        } catch (err) {
-            logger.error(`example non transaction Query error\n: ${JSON.stringify(err)}`);
-            connection.release();
-            return false;
-        }
-    } catch (err) {
-        logger.error(`example non transaction DB Connection error\n: ${JSON.stringify(err)}`);
-        return false;
-    }
-};
-
-// 특정날짜 이전 생성한 계정이 좋아요를 누른 영상 - 동현님
-exports.specific = async function (req, res) {
-    try {
-        const connection = await pool.getConnection(async conn => conn);
-        try {
             //const user_id = req.params.user_id;
-            const rows = await channelDao.specific();
+            const rows = await channelDao.defaultDao();
             console.log(rows)
             return res.json(rows);
         } catch (err) {

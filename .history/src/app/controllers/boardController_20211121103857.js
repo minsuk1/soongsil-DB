@@ -67,8 +67,7 @@ exports.comment = async function (req, res) {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
-            const video_id = req.params.video_id;
-            const rows = await boardDao.comment(video_id);
+            const rows = await boardDao.comment();
             console.log(rows)
             return res.json(rows);
         } catch (err) {

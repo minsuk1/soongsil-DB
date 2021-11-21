@@ -2,7 +2,7 @@ module.exports = function(app){
     const channel = require('../controllers/channelController');
 
     // 유튜브 동영상(id=1)을 클릭했을 때, 나오는 화면 - 동현님
-    app.get('/channel/:id', channel.default);
+    app.get('/channel/', channel.default);
 
     // 특정날짜 이전 생성한 계정이 좋아요를 누른 영상 - 동현님
     app.get('/channel/likes/specific', channel.specific);

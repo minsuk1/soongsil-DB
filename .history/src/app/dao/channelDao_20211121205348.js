@@ -25,7 +25,7 @@ async function watch_later() {
 
 
 //게시글 조회(세부)
-async function defaultDao(id) {
+async function defaultDao() {
     const connection = await pool.getConnection(async (conn) => conn);
     //const user_id = req.params.user_id;
     const selectEmailQuery = 
@@ -36,9 +36,9 @@ async function defaultDao(id) {
 (SELECT count(*)  FROM EMOTION_VIDEOS AS E INNER JOIN VIDEOS AS V ON  E.Video_id = V.Video_id  WHERE E.Emotion = 0) AS '싫어요_수',
 (SELECT group_concat(TagName)  FROM TAG_VIDEOS AS TV INNER JOIN VIDEOS AS V ON TV.Video_id = V.Video_id INNER JOIN TAG AS T ON TV.Tag_id = T.Tag_id) as 'TAG항목'
 FROM VIDEOS AS V LEFT JOIN YOUTUBE_USER AS U ON V.Users_id = U.Users_id
-wHERE V.Video_id = ?;`;
+wHERE V.Video_id = 1;`;
   
-    const [rows] = await connection.query(selectEmailQuery, id)
+    const [rows] = await connection.query(selectEmailQuery)
     connection.release();
   
     return rows;

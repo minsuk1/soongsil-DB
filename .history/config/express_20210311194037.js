@@ -14,9 +14,16 @@ module.exports = function () {
     app.use(methodOverride());
 
     app.use(cors());
-       
+    // app.use(express.static(process.cwd() + '/public'));
+
+    /* App (Android, iOS) */
+   
     require('../src/app/routes/channelRoute')(app);
     require('../src/app/routes/boardRoute')(app);
-    
+    /* Web */
+    // require('../src/web/routes/indexRoute')(app);
+
+    /* Web Admin*/
+    // require('../src/web-admin/routes/indexRoute')(app);
     return app;
 };

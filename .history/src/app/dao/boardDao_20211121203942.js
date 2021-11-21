@@ -51,7 +51,7 @@ async function comment_dislike() {
 
 
 // video 1번에 대한 댓글
-async function comment(video_id) {
+async function comment() {
   const connection = await pool.getConnection(async (conn) => conn);
   const Query = 
                     `
@@ -66,9 +66,9 @@ async function comment(video_id) {
                 FROM (YOUTUBE_USER 
                      left join VIDEO_COMMENTS on YOUTUBE_USER.Users_id = VIDEO_COMMENTS.Users_id)
                      left join VIDEOS on VIDEOS.Video_id = VIDEO_COMMENTS.Video_id
-                WHERE VIDEOS.Video_id = ?;`;
+                WHERE VIDEOS.Video_id = 1;`;
 
-  const [rows] = await connection.query(Query, video_id)
+  const [rows] = await connection.query(Query)
   connection.release();
 
   return rows;
